@@ -1,0 +1,901 @@
+
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BLX Financial - Bursa Malaysia Stock & Fundamental Insights</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bursa: {
+                            blue: '#0F172A',
+                            accent: '#2563EB',
+                            gold: '#F59E0B',
+                            gain: '#10B981',
+                            loss: '#EF4444',
+                            darkbg: '#0B0F17',
+                            cardbg: '#1E293B'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'ticker': 'ticker 35s linear infinite',
+                    },
+                    keyframes: {
+                        ticker: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        /* Ticker pause on hover */
+        .ticker-container:hover .ticker-content {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body class="bg-bursa-darkbg text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+
+    <!-- TOP TICKER TAPE (Top 10 Gainers & Top 10 Losers Right-to-Left) -->
+    <div class="bg-slate-900 border-b border-slate-800 text-xs overflow-hidden whitespace-nowrap sticky top-0 z-40 ticker-container shadow-md">
+        <div class="flex items-center">
+            <!-- Ticker Label Badge -->
+            <div class="bg-blue-600 text-white font-bold px-3 py-2 z-10 flex items-center gap-1.5 shrink-0 shadow-lg">
+                <i class="fa-solid fa-chart-line animate-pulse"></i>
+                <span class="tracking-wider">BURSA MOVERS</span>
+            </div>
+            
+            <!-- Moving Track -->
+            <div class="inline-block animate-ticker ticker-content flex items-center py-2">
+                <!-- Ticker items dynamically injected + mirrored via JS for seamless loop -->
+                <div id="tickerItems" class="flex items-center space-x-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN NAVBAR -->
+    <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-[33px] z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-blue-500/20 ring-1 ring-white/20">
+                        B
+                    </div>
+                    <div>
+                        <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-200 to-blue-400 bg-clip-text text-transparent">
+                            BLX FINANCIAL
+                        </span>
+                        <span class="text-[10px] block font-semibold text-blue-400 tracking-wider uppercase -mt-1">
+                            Bursa Malaysia Market Insights
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <a href="#overview" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Overview</a>
+                    <a href="#markets" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Fundamentals</a>
+                    <a href="#news" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Market News</a>
+                    <a href="#education" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Trading Guide</a>
+                    <a href="#contact" class="px-3 py-2 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800 transition">Contact</a>
+                </nav>
+
+                <!-- Action Controls (Search Trigger & Login) -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="openModal('loginModal')" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-4 py-2 rounded-lg transition shadow-md shadow-blue-600/30 flex items-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket text-xs"></i>
+                        <span>Sign In</span>
+                    </button>
+                    <!-- Mobile Hamburger -->
+                    <button id="mobileMenuBtn" class="md:hidden text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Nav Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-900 border-b border-slate-800 px-4 pt-2 pb-4 space-y-2">
+            <a href="#overview" class="block px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">Overview</a>
+            <a href="#markets" class="block px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">Fundamentals</a>
+            <a href="#news" class="block px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">Market News</a>
+            <a href="#education" class="block px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">Trading Guide</a>
+            <a href="#contact" class="block px-3 py-2 rounded-md text-slate-300 hover:bg-slate-800">Contact</a>
+        </div>
+    </header>
+
+    <!-- HERO / MARKET OVERVIEW -->
+    <section id="overview" class="py-8 bg-gradient-to-b from-slate-900 to-bursa-darkbg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Hero Title -->
+            <div class="mb-8 text-center sm:text-left flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                        Bursa Malaysia Market Hub
+                    </h1>
+                    <p class="text-slate-400 text-sm sm:text-base mt-1 max-w-2xl">
+                        Clean, simplified financial fundamentals, valuation metrics, real-time gainers & losers, and key stock insights for investors.
+                    </p>
+                </div>
+                <div class="inline-flex items-center gap-2 bg-slate-800/80 border border-slate-700/60 rounded-xl px-4 py-2 text-xs text-slate-300 self-start md:self-auto">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                    <span>KLCI Status: <strong class="text-emerald-400">1,612.45 (+0.42%)</strong></span>
+                </div>
+            </div>
+
+            <!-- KEY MARKET SUMMARY CARDS -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <!-- Card 1: FBM KLCI -->
+                <div class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4 hover:border-slate-600 transition">
+                    <div class="flex justify-between items-center text-xs text-slate-400 font-medium">
+                        <span>FBM KLCI INDEX</span>
+                        <i class="fa-solid fa-chart-area text-blue-400"></i>
+                    </div>
+                    <div class="mt-2 flex items-baseline justify-between">
+                        <span class="text-2xl font-bold text-white">1,612.45</span>
+                        <span class="text-xs font-semibold text-emerald-400 flex items-center gap-1 bg-emerald-500/10 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-caret-up"></i> +6.74 (+0.42%)
+                        </span>
+                    </div>
+                    <div class="mt-2 text-[11px] text-slate-400">Vol: 3.42B shares | MYR</div>
+                </div>
+
+                <!-- Card 2: Top Sector -->
+                <div class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4 hover:border-slate-600 transition">
+                    <div class="flex justify-between items-center text-xs text-slate-400 font-medium">
+                        <span>TOP SECTOR TODAY</span>
+                        <i class="fa-solid fa-building-columns text-yellow-400"></i>
+                    </div>
+                    <div class="mt-2 flex items-baseline justify-between">
+                        <span class="text-2xl font-bold text-white">Financials</span>
+                        <span class="text-xs font-semibold text-emerald-400 flex items-center gap-1 bg-emerald-500/10 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-caret-up"></i> +1.18%
+                        </span>
+                    </div>
+                    <div class="mt-2 text-[11px] text-slate-400">Led by MAYBANK, PBBANK</div>
+                </div>
+
+                <!-- Card 3: Market Volume -->
+                <div class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4 hover:border-slate-600 transition">
+                    <div class="flex justify-between items-center text-xs text-slate-400 font-medium">
+                        <span>TOTAL TURNOVER</span>
+                        <i class="fa-solid fa-coins text-amber-400"></i>
+                    </div>
+                    <div class="mt-2 flex items-baseline justify-between">
+                        <span class="text-2xl font-bold text-white">RM 2.85B</span>
+                        <span class="text-xs font-semibold text-slate-300 bg-slate-700 px-2 py-0.5 rounded">
+                            Normal
+                        </span>
+                    </div>
+                    <div class="mt-2 text-[11px] text-slate-400">Advances: 542 | Declines: 389</div>
+                </div>
+
+                <!-- Card 4: USD / MYR -->
+                <div class="bg-slate-800/60 border border-slate-700/60 rounded-xl p-4 hover:border-slate-600 transition">
+                    <div class="flex justify-between items-center text-xs text-slate-400 font-medium">
+                        <span>USD / MYR FOREX</span>
+                        <i class="fa-solid fa-dollar-sign text-emerald-400"></i>
+                    </div>
+                    <div class="mt-2 flex items-baseline justify-between">
+                        <span class="text-2xl font-bold text-white">4.3820</span>
+                        <span class="text-xs font-semibold text-red-400 flex items-center gap-1 bg-red-500/10 px-2 py-0.5 rounded">
+                            <i class="fa-solid fa-caret-down"></i> -0.15%
+                        </span>
+                    </div>
+                    <div class="mt-2 text-[11px] text-slate-400">Ringgit strengthening</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECTION: FUNDAMENTALS & STOCK EXPLORER -->
+    <section id="markets" class="py-8 bg-bursa-darkbg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Header & Filter Bar -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 mb-6 shadow-xl">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass-chart text-blue-500"></i>
+                            Bursa Malaysia Fundamental Explorer
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Search stock code, company name, or filter by top gainers/losers to view full fundamental ratios.</p>
+                    </div>
+
+                    <!-- Search Input Box -->
+                    <div class="w-full md:w-80 relative">
+                        <i class="fa-solid fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="text" id="stockSearch" placeholder="Search ticker e.g. MAYBANK, 1155, YTL..." 
+                            class="w-full bg-slate-800 border border-slate-700 text-slate-100 text-sm rounded-xl pl-10 pr-4 py-2.5 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-slate-500 transition">
+                    </div>
+                </div>
+
+                <!-- Quick Category Tabs -->
+                <div class="flex flex-wrap items-center gap-2 mt-5 pt-4 border-t border-slate-800/80">
+                    <button onclick="filterStocks('all')" id="tab-all" class="stock-tab bg-blue-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-medium transition">All Watchlist</button>
+                    <button onclick="filterStocks('gainer')" id="tab-gainer" class="stock-tab bg-slate-800 hover:bg-slate-700 text-slate-300 px-3.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Top Gainers
+                    </button>
+                    <button onclick="filterStocks('loser')" id="tab-loser" class="stock-tab bg-slate-800 hover:bg-slate-700 text-slate-300 px-3.5 py-1.5 rounded-lg text-xs font-medium transition flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-red-400"></span> Top Losers
+                    </button>
+                    <button onclick="filterStocks('finance')" id="tab-finance" class="stock-tab bg-slate-800 hover:bg-slate-700 text-slate-300 px-3.5 py-1.5 rounded-lg text-xs font-medium transition">Banking & Finance</button>
+                    <button onclick="filterStocks('tech')" id="tab-tech" class="stock-tab bg-slate-800 hover:bg-slate-700 text-slate-300 px-3.5 py-1.5 rounded-lg text-xs font-medium transition">Technology & Utilities</button>
+                </div>
+            </div>
+
+            <!-- Stocks Fundamental Table -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead class="bg-slate-800/70 text-xs uppercase text-slate-400 tracking-wider border-b border-slate-800">
+                            <tr>
+                                <th scope="col" class="py-3.5 px-4 font-semibold">Company & Code</th>
+                                <th scope="col" class="py-3.5 px-4 font-semibold text-right">Price (MYR)</th>
+                                <th scope="col" class="py-3.5 px-4 font-semibold text-right">Change</th>
+                                <th scope="col" class="py-3.5 px-4 font-semibold text-right">P/E Ratio</th>
+                                <th scope="col" class="py-3.5 px-4 font-semibold text-right hidden md:table-cell">Div Yield (%)</th>
+                                <th scope="col" class="py-3.5 px-4 font-semibold text-right hidden lg:table-cell">Market Cap (B)</th>
+                                <th scope="col" class="py-3.5 px-4 font-semibold text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTableBody" class="divide-y divide-slate-800/60 font-medium">
+                            <!-- Injected via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Empty Search Fallback -->
+                <div id="noResults" class="hidden p-8 text-center text-slate-400">
+                    <i class="fa-solid fa-box-open text-3xl mb-2 text-slate-600 block"></i>
+                    No Bursa stocks matched your query. Try typing 'MAYBANK' or 'PBBANK'.
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FUNDAMENTAL DETAIL MODAL -->
+    <div id="fundamentalModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700/80 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl transform transition-all">
+            <!-- Modal Header -->
+            <div class="bg-slate-800/80 px-6 py-4 border-b border-slate-700/80 flex justify-between items-center">
+                <div class="flex items-center gap-3">
+                    <div id="modalLogo" class="w-10 h-10 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 font-bold flex items-center justify-center text-base">
+                        MB
+                    </div>
+                    <div>
+                        <h3 id="modalStockName" class="text-lg font-bold text-white flex items-center gap-2">
+                            Maybank Berhad <span id="modalStockTicker" class="text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded">1155.KL</span>
+                        </h3>
+                        <p id="modalStockSector" class="text-xs text-slate-400">Financial Services | Main Market Bursa Malaysia</p>
+                    </div>
+                </div>
+                <button onclick="closeModal('fundamentalModal')" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Modal Content Body -->
+            <div class="p-6 max-h-[80vh] overflow-y-auto space-y-6">
+                <!-- Price Banner -->
+                <div class="flex flex-wrap items-baseline justify-between gap-4 bg-slate-800/40 p-4 rounded-xl border border-slate-800">
+                    <div>
+                        <div class="text-xs text-slate-400 uppercase tracking-wider">Current Market Price</div>
+                        <div class="text-3xl font-extrabold text-white mt-1" id="modalPrice">RM 10.24</div>
+                    </div>
+                    <div id="modalChangeBadge" class="text-sm font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400">
+                        <i class="fa-solid fa-arrow-trend-up"></i> +0.14 (+1.38%)
+                    </div>
+                </div>
+
+                <!-- Simulated Interactive Chart -->
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Price Chart Simulation</span>
+                        <div class="flex gap-1 text-xs">
+                            <button onclick="switchChart('1D')" class="chart-btn bg-blue-600 text-white px-2.5 py-1 rounded">1D</button>
+                            <button onclick="switchChart('1W')" class="chart-btn bg-slate-800 text-slate-400 hover:text-white px-2.5 py-1 rounded">1W</button>
+                            <button onclick="switchChart('1M')" class="chart-btn bg-slate-800 text-slate-400 hover:text-white px-2.5 py-1 rounded">1M</button>
+                            <button onclick="switchChart('1Y')" class="chart-btn bg-slate-800 text-slate-400 hover:text-white px-2.5 py-1 rounded">1Y</button>
+                        </div>
+                    </div>
+                    <!-- SVG Chart Container -->
+                    <div class="h-36 w-full flex items-center justify-center">
+                        <svg id="stockSvgChart" class="w-full h-full text-emerald-400" viewBox="0 0 400 100" preserveAspectRatio="none">
+                            <path id="chartPath" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                                d="M 0 80 Q 50 60, 100 70 T 200 40 T 300 50 T 400 20" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Fundamental Grid -->
+                <div>
+                    <h4 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-blue-400"></i> Fundamental Indicators & Valuation
+                    </h4>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block">P/E Ratio (TTM)</span>
+                            <span id="modalPE" class="text-sm font-bold text-white mt-1 block">12.4x</span>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block">Dividend Yield</span>
+                            <span id="modalDiv" class="text-sm font-bold text-emerald-400 mt-1 block">6.10%</span>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block">Market Capitalization</span>
+                            <span id="modalMarketCap" class="text-sm font-bold text-white mt-1 block">RM 123.4 B</span>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block">EPS (MYR)</span>
+                            <span id="modalEPS" class="text-sm font-bold text-white mt-1 block">0.82</span>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block">Return On Equity (ROE)</span>
+                            <span id="modalROE" class="text-sm font-bold text-white mt-1 block">10.8%</span>
+                        </div>
+                        <div class="bg-slate-800/50 p-3 rounded-lg border border-slate-800">
+                            <span class="text-slate-400 block">52-Week Range</span>
+                            <span id="modalRange" class="text-sm font-bold text-white mt-1 block">RM 8.80 - RM 10.40</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Company Overview Description -->
+                <div>
+                    <h4 class="text-sm font-bold text-slate-200 uppercase tracking-wider mb-2">Company Overview</h4>
+                    <p id="modalDesc" class="text-xs text-slate-400 leading-relaxed">
+                        Leading banking group in Malaysia with extensive regional presence in ASEAN, providing retail banking, investment solutions, and financial services.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-slate-800/80 px-6 py-3 border-t border-slate-700/80 text-right">
+                <button onclick="closeModal('fundamentalModal')" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-4 py-2 rounded-lg font-medium transition">
+                    Close Details
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION: LATEST MALAYSIA FINANCIAL NEWS -->
+    <section id="news" class="py-12 bg-slate-900 border-t border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2.5">
+                        <i class="fa-solid fa-newspaper text-blue-500"></i>
+                        Latest Bursa & Corporate News
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Direct news feeds, announcements, and key market updates with external hyperlinked sources.</p>
+                </div>
+                <a href="https://www.bursamalaysia.com" target="_blank" class="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-1.5 self-start sm:self-auto bg-blue-500/10 px-3 py-1.5 rounded-lg border border-blue-500/20">
+                    Visit Official Bursa Malaysia <i class="fa-solid fa-up-right-from-square text-[10px]"></i>
+                </a>
+            </div>
+
+            <!-- News Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- News Item 1 -->
+                <article class="bg-bursa-darkbg border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition flex flex-col justify-between">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+                            <span class="bg-blue-600/20 text-blue-400 px-2.5 py-0.5 rounded font-medium border border-blue-500/30">Bursa Announcement</span>
+                            <span>2 Hours Ago</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base hover:text-blue-400 transition cursor-pointer">
+                            Maybank & Banking Sector Post Strong Earnings Boosted by Net Interest Margins
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
+                            Malaysian banking counters saw increased investor volume today following positive quarterly dividend declarations and sustained loan growth projections for the upcoming fiscal year.
+                        </p>
+                    </div>
+                    <div class="px-5 py-3 border-t border-slate-800/80 bg-slate-900/50 flex justify-between items-center">
+                        <span class="text-[11px] text-slate-500 font-medium">Source: The Edge Malaysia</span>
+                        <a href="https://www.theedgemalaysia.com" target="_blank" rel="noopener" class="text-xs text-blue-400 hover:underline font-medium flex items-center gap-1">
+                            Read Article <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- News Item 2 -->
+                <article class="bg-bursa-darkbg border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition flex flex-col justify-between">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+                            <span class="bg-emerald-600/20 text-emerald-400 px-2.5 py-0.5 rounded font-medium border border-emerald-500/30">Utilities & Energy</span>
+                            <span>4 Hours Ago</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base hover:text-blue-400 transition cursor-pointer">
+                            Tenaga Nasional Advances National Energy Transition Roadmap (NETR) Projects
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
+                            TENAGA expands renewable energy grid infrastructure investments with strategic solar installations, anchoring institutional buy-ins across the KLCI index.
+                        </p>
+                    </div>
+                    <div class="px-5 py-3 border-t border-slate-800/80 bg-slate-900/50 flex justify-between items-center">
+                        <span class="text-[11px] text-slate-500 font-medium">Source: StarBiz Malaysia</span>
+                        <a href="https://www.thestar.com.my/business" target="_blank" rel="noopener" class="text-xs text-blue-400 hover:underline font-medium flex items-center gap-1">
+                            Read Article <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- News Item 3 -->
+                <article class="bg-bursa-darkbg border border-slate-800 rounded-2xl overflow-hidden hover:border-slate-700 transition flex flex-col justify-between">
+                    <div class="p-5">
+                        <div class="flex items-center justify-between text-xs text-slate-400 mb-3">
+                            <span class="bg-purple-600/20 text-purple-400 px-2.5 py-0.5 rounded font-medium border border-purple-500/30">Technology</span>
+                            <span>6 Hours Ago</span>
+                        </div>
+                        <h3 class="font-bold text-white text-base hover:text-blue-400 transition cursor-pointer">
+                            Semiconductor & Tech Stocks Gain Momentum as Global AI Demand Resurges
+                        </h3>
+                        <p class="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
+                            Penang semiconductor backend testing providers experience surge in automated test equipment (ATE) orders, boosting tech sector counters.
+                        </p>
+                    </div>
+                    <div class="px-5 py-3 border-t border-slate-800/80 bg-slate-900/50 flex justify-between items-center">
+                        <span class="text-[11px] text-slate-500 font-medium">Source: RinggitPlus Business</span>
+                        <a href="https://ringgitplus.com" target="_blank" rel="noopener" class="text-xs text-blue-400 hover:underline font-medium flex items-center gap-1">
+                            Read Article <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: EDUCATIONAL TRADING VIDEO -->
+    <section id="education" class="py-12 bg-bursa-darkbg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Left Intro Column -->
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-500/30 text-blue-400 text-xs px-3 py-1 rounded-full font-semibold">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>BLX Trading Academy</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
+                            How to Start Stock Trading on Bursa Malaysia
+                        </h2>
+                        <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                            New to investing? Learn how CDS accounts work, how to interpret fundamental P/E ratios, and execute trades safely on Bursa Malaysia. Watch our embedded starter guide.
+                        </p>
+                        
+                        <!-- Quick Highlights List -->
+                        <ul class="space-y-2.5 text-xs text-slate-300 pt-2">
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                                <span>Understanding CDS Account & Brokerage Fees</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                                <span>How to analyze P/E, Dividend Yield & Balance Sheets</span>
+                            </li>
+                            <li class="flex items-center gap-2.5">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+                                <span>Risk Management Strategies for Retail Investors</span>
+                            </li>
+                        </ul>
+
+                        <div class="pt-2">
+                            <a href="https://www.youtube.com/results?search_query=bursa+malaysia+stock+trading+guide" target="_blank" rel="noopener" class="inline-flex items-center gap-2 text-xs font-bold text-white bg-red-600 hover:bg-red-500 px-4 py-2.5 rounded-xl transition shadow-lg shadow-red-600/20">
+                                <i class="fa-brands fa-youtube text-sm"></i>
+                                Explore Youtube Guides
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Right Responsive Embedded Youtube Player -->
+                    <div class="lg:col-span-7">
+                        <div class="relative w-full rounded-2xl overflow-hidden border border-slate-700 shadow-2xl bg-black aspect-video">
+                            <!-- Youtube Embed with Autoplay & Mute Parameters enabled -->
+                            <iframe 
+                                class="absolute top-0 left-0 w-full h-full"
+                                src="https://www.youtube-nocookie.com/embed/g6P5x2s9Rnk?autoplay=1&mute=1&enablejsapi=1&rel=0" 
+                                title="Bursa Malaysia Stock Trading Guide" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>
+                        <p class="text-[11px] text-slate-500 text-center mt-2">
+                            Video set to auto-play muted for browser compliance. Unmute inside video overlay for audio.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-slate-800 flex justify-between items-center">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-user-lock text-blue-500"></i> Sign In to BLX Portal
+                </h3>
+                <button onclick="closeModal('loginModal')" class="text-slate-400 hover:text-white p-1 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <form onsubmit="handleLogin(event)" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Email / User ID</label>
+                    <input type="email" placeholder="numannabil03@gmail.com" required 
+                        class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Password</label>
+                    <input type="password" placeholder="••••••••" required 
+                        class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-blue-500">
+                </div>
+                
+                <div class="flex items-center justify-between text-xs text-slate-400">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="rounded bg-slate-800 border-slate-700 text-blue-600 focus:ring-0">
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="text-blue-400 hover:underline">Forgot password?</a>
+                </div>
+
+                <div id="loginMsg" class="hidden text-xs p-2.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-center">
+                    Login successful! Welcome back to BLX Financial.
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm py-2.5 rounded-xl transition shadow-lg shadow-blue-600/30">
+                    Sign In to Portal
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER & CONTACT INFORMATION -->
+    <footer id="contact" class="bg-slate-950 border-t border-slate-800 text-slate-400 pt-12 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-8 border-b border-slate-800">
+                
+                <!-- Col 1: Brand Info -->
+                <div class="space-y-3">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-extrabold text-lg">
+                            B
+                        </div>
+                        <span class="text-lg font-black text-white">BLX FINANCIAL</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Your trusted portal for Bursa Malaysia stock market quotes, top gainers/losers analytics, and fundamental stock evaluations.
+                    </p>
+                </div>
+
+                <!-- Col 2: Direct Contact Details -->
+                <div>
+                    <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3">Direct Contact</h4>
+                    <ul class="space-y-2.5 text-xs">
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-envelope text-blue-400 w-4"></i>
+                            <a href="mailto:numannabil03@gmail.com" class="hover:text-white transition">numannabil03@gmail.com</a>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-phone text-emerald-400 w-4"></i>
+                            <a href="tel:01161952441" class="hover:text-white transition">01161952441</a>
+                        </li>
+                        <li class="flex items-center gap-2.5">
+                            <i class="fa-solid fa-location-dot text-red-400 w-4"></i>
+                            <span>Kuala Lumpur, Malaysia</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Navigation Links -->
+                <div>
+                    <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3">Quick Navigation</h4>
+                    <ul class="space-y-2 text-xs">
+                        <li><a href="#overview" class="hover:text-white transition">Market Overview</a></li>
+                        <li><a href="#markets" class="hover:text-white transition">Fundamental Explorer</a></li>
+                        <li><a href="#news" class="hover:text-white transition">Financial News Feed</a></li>
+                        <li><a href="#education" class="hover:text-white transition">Stock Trading Video</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Disclaimer -->
+                <div>
+                    <h4 class="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3">Financial Disclaimer</h4>
+                    <p class="text-[11px] text-slate-500 leading-relaxed">
+                        Information provided by BLX Financial is for informational and educational purposes only and does not constitute formal investment advice.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Bottom Copyright -->
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <div>
+                    © 2026 BLX Financial. All rights reserved. Built for Bursa Malaysia Market Insights.
+                </div>
+                <div class="flex space-x-4">
+                    <a href="mailto:numannabil03@gmail.com" class="hover:text-slate-300"><i class="fa-solid fa-envelope text-sm"></i> Email Us</a>
+                    <a href="tel:01161952441" class="hover:text-slate-300"><i class="fa-solid fa-phone text-sm"></i> Call Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // BURSA MALAYSIA STOCK DATASET (TOP GAINERS & LOSERS INCLUDED)
+        const bursaStocks = [
+            // Top 10 Gainers
+            { ticker: "1155.KL", name: "MAYBANK", full: "Malayan Banking Berhad", price: 10.24, change: 0.28, pct: 2.81, type: "gainer", pe: 12.4, div: 6.1, marketCap: 123.4, eps: 0.82, roe: 10.8, range: "8.80 - 10.40", sector: "Financial Services", desc: "Largest banking group in Malaysia with extensive regional presence in ASEAN." },
+            { ticker: "1023.KL", name: "PBBANK", full: "Public Bank Berhad", price: 4.68, change: 0.12, pct: 2.63, type: "gainer", pe: 11.8, div: 4.8, marketCap: 90.8, eps: 0.40, roe: 12.1, range: "3.90 - 4.75", sector: "Financial Services", desc: "Leading commercial bank in Malaysia renowned for conservative risk management and high asset quality." },
+            { ticker: "5347.KL", name: "TENAGA", full: "Tenaga Nasional Berhad", price: 13.80, change: 0.45, pct: 3.37, type: "gainer", pe: 16.2, div: 3.5, marketCap: 79.8, eps: 0.85, roe: 8.2, range: "9.50 - 14.10", sector: "Utilities", desc: "National electric utility company serving residential, commercial, and industrial customers." },
+            { ticker: "1066.KL", name: "RHBBANK", full: "RHB Bank Berhad", price: 6.45, change: 0.18, pct: 2.87, type: "gainer", pe: 9.8, div: 6.8, marketCap: 27.6, eps: 0.66, roe: 9.5, range: "5.20 - 6.60", sector: "Financial Services", desc: "Fully integrated financial service group providing retail and corporate banking." },
+            { ticker: "4677.KL", name: "YTL", full: "YTL Corporation Berhad", price: 3.42, change: 0.15, pct: 4.59, type: "gainer", pe: 14.1, div: 2.9, marketCap: 37.5, eps: 0.24, roe: 14.2, range: "1.80 - 3.80", sector: "Utilities & Conglomerate", desc: "Infrastructure conglomerate active in power, cement, hotels, and digital utilities." },
+            { ticker: "6888.KL", name: "AXIATA", full: "Axiata Group Berhad", price: 2.58, change: 0.08, pct: 3.20, type: "gainer", pe: 18.5, div: 3.8, marketCap: 23.6, eps: 0.14, roe: 5.4, range: "2.10 - 2.80", sector: "Telecommunications", desc: "Leading regional telecommunications group operating across Malaysia, Indonesia, and South Asia." },
+            { ticker: "5225.KL", name: "IHH", full: "IHH Healthcare Berhad", price: 6.32, change: 0.14, pct: 2.27, type: "gainer", pe: 31.2, div: 1.8, marketCap: 55.7, eps: 0.20, roe: 7.9, range: "5.70 - 6.50", sector: "Healthcare", desc: "International private healthcare provider managing Mount Elizabeth, Gleneagles, and Pantai hospitals." },
+            { ticker: "6033.KL", name: "PETGAS", full: "Petronas Gas Berhad", price: 18.20, change: 0.38, pct: 2.13, type: "gainer", pe: 19.4, div: 4.2, marketCap: 36.0, eps: 0.94, roe: 13.5, range: "16.50 - 18.80", sector: "Utilities & Gas", desc: "Gas processing and transmission infrastructure company under PETRONAS Group." },
+            { ticker: "0166.KL", name: "INARI", full: "Inari Amertron Berhad", price: 3.12, change: 0.11, pct: 3.65, type: "gainer", pe: 28.5, div: 2.8, marketCap: 11.7, eps: 0.11, roe: 15.2, range: "2.50 - 3.60", sector: "Technology & OSAT", desc: "Leading semiconductor outsourced assembly and test (OSAT) provider." },
+            { ticker: "5183.KL", name: "PCHEM", full: "Petronas Chemicals Group", price: 5.85, change: 0.16, pct: 2.81, type: "gainer", pe: 22.0, div: 3.1, marketCap: 46.8, eps: 0.27, roe: 6.8, range: "5.10 - 7.20", sector: "Industrial Chemicals", desc: "Integrated chemical producer specializing in olefins, polymers, and fertilizers." },
+
+            // Top 10 Losers
+            { ticker: "1025.KL", name: "CIMB", full: "CIMB Group Holdings", price: 8.12, change: -0.18, pct: -2.17, type: "loser", pe: 11.2, div: 5.2, marketCap: 86.8, eps: 0.72, roe: 10.5, range: "6.10 - 8.50", sector: "Financial Services", desc: "Major ASEAN universal bank headquartered in Kuala Lumpur." },
+            { ticker: "6947.KL", name: "DIGI", full: "CelcomDigi Berhad", price: 3.65, change: -0.12, pct: -3.18, type: "loser", pe: 24.1, div: 3.9, marketCap: 42.8, eps: 0.15, roe: 11.0, range: "3.50 - 4.40", sector: "Telecommunications", desc: "Largest mobile telecommunications provider in Malaysia following merger." },
+            { ticker: "5285.KL", name: "SIMEPROP", full: "Sime Darby Property", price: 1.42, change: -0.05, pct: -3.40, type: "loser", pe: 15.8, div: 2.5, marketCap: 9.6, eps: 0.09, roe: 6.2, range: "0.60 - 1.60", sector: "Property", desc: "Premier township developer with extensive landbanks across Klang Valley." },
+            { ticker: "5185.KL", name: "MISC", full: "MISC Berhad", price: 8.40, change: -0.22, pct: -2.55, type: "loser", pe: 16.5, div: 4.3, marketCap: 37.5, eps: 0.51, roe: 9.1, range: "7.10 - 8.90", sector: "Energy Shipping", desc: "International energy maritime logistics and offshore solution provider." },
+            { ticker: "5222.KL", name: "FEHB", full: "FGV Holdings Berhad", price: 1.28, change: -0.04, pct: -3.03, type: "loser", pe: 18.0, div: 3.0, marketCap: 4.6, eps: 0.07, roe: 4.8, range: "1.20 - 1.55", sector: "Plantation", desc: "Agri-business company producing crude palm oil and consumer food products." },
+            { ticker: "7113.KL", name: "TOPGLOV", full: "Top Glove Corporation", price: 1.05, change: -0.04, pct: -3.67, type: "loser", pe: 45.0, div: 0.0, marketCap: 8.6, eps: 0.02, roe: 2.1, range: "0.75 - 1.25", sector: "Rubber Gloves", desc: "World's largest manufacturer of synthetic and natural rubber gloves." },
+            { ticker: "4197.KL", name: "SIME", full: "Sime Darby Berhad", price: 2.38, change: -0.07, pct: -2.86, type: "loser", pe: 10.5, div: 5.5, marketCap: 16.2, eps: 0.22, roe: 8.7, range: "2.10 - 2.80", sector: "Trading & Motors", desc: "Multi-national industrial and automotive distribution leader." },
+            { ticker: "3034.KL", name: "GENTING", full: "Genting Berhad", price: 4.02, change: -0.11, pct: -2.66, type: "loser", pe: 12.9, div: 4.1, marketCap: 15.5, eps: 0.31, roe: 5.9, range: "3.80 - 4.90", sector: "Gaming & Hospitality", desc: "Global leisure, hospitality, and gaming operator." },
+            { ticker: "3182.KL", name: "GENTM", full: "Genting Malaysia Berhad", price: 2.28, change: -0.06, pct: -2.56, type: "loser", pe: 13.5, div: 5.8, marketCap: 13.5, eps: 0.17, roe: 6.8, range: "2.20 - 2.80", sector: "Resorts & Gaming", desc: "Operator of Resorts World Genting integrated resort." },
+            { ticker: "5292.KL", name: "SGB", full: "Sunway Construction", price: 4.35, change: -0.15, pct: -3.33, type: "loser", pe: 21.0, div: 2.2, marketCap: 5.6, eps: 0.20, roe: 18.2, range: "2.10 - 4.70", sector: "Construction", desc: "Pure-play construction group executing major rail, building, and data center projects." }
+        ];
+
+        // POPULATE LIVE TICKER TAPE
+        function renderTicker() {
+            const container = document.getElementById('tickerItems');
+            let html = '';
+            
+            // Loop twice to ensure continuous smooth CSS loop
+            const list = [...bursaStocks, ...bursaStocks];
+            
+            list.forEach(stock => {
+                const isGain = stock.type === 'gainer';
+                const colorClass = isGain ? 'text-emerald-400' : 'text-red-400';
+                const icon = isGain ? 'fa-caret-up' : 'fa-caret-down';
+                const sign = isGain ? '+' : '';
+
+                html += `
+                    <div class="inline-flex items-center gap-2 cursor-pointer hover:bg-slate-800 px-2 py-1 rounded transition text-xs" onclick="openStockDetail('${stock.ticker}')">
+                        <span class="font-bold text-slate-200">${stock.name}</span>
+                        <span class="text-slate-400">RM ${stock.price.toFixed(2)}</span>
+                        <span class="${colorClass} font-semibold flex items-center gap-0.5">
+                            <i class="fa-solid ${icon}"></i>
+                            ${sign}${stock.pct.toFixed(2)}%
+                        </span>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // RENDER FUNDAMENTAL STOCK EXPLORER TABLE
+        function renderStockTable(data) {
+            const tbody = document.getElementById('stockTableBody');
+            const noRes = document.getElementById('noResults');
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '';
+                noRes.classList.remove('hidden');
+                return;
+            } else {
+                noRes.classList.add('hidden');
+            }
+
+            let html = '';
+            data.forEach(stock => {
+                const isGain = stock.change >= 0;
+                const changeColor = isGain ? 'text-emerald-400' : 'text-red-400';
+                const badgeBg = isGain ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-red-500/10 border-red-500/20';
+                const icon = isGain ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down';
+                const sign = isGain ? '+' : '';
+
+                html += `
+                    <tr class="hover:bg-slate-800/50 transition cursor-pointer group" onclick="openStockDetail('${stock.ticker}')">
+                        <td class="py-4 px-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-blue-400 group-hover:border-blue-500 transition">
+                                    ${stock.name.substring(0, 2)}
+                                </div>
+                                <div>
+                                    <div class="font-bold text-white group-hover:text-blue-400 transition">${stock.name}</div>
+                                    <div class="text-[11px] text-slate-400">${stock.ticker} • ${stock.sector}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="py-4 px-4 text-right font-bold text-slate-100">
+                            RM ${stock.price.toFixed(2)}
+                        </td>
+                        <td class="py-4 px-4 text-right">
+                            <span class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-md border ${badgeBg} ${changeColor}">
+                                <i class="fa-solid ${icon}"></i>
+                                ${sign}${stock.change.toFixed(2)} (${sign}${stock.pct.toFixed(2)}%)
+                            </span>
+                        </td>
+                        <td class="py-4 px-4 text-right text-slate-300 font-medium">
+                            ${stock.pe}x
+                        </td>
+                        <td class="py-4 px-4 text-right text-emerald-400 font-semibold hidden md:table-cell">
+                            ${stock.div}%
+                        </td>
+                        <td class="py-4 px-4 text-right text-slate-300 font-medium hidden lg:table-cell">
+                            RM ${stock.marketCap}B
+                        </td>
+                        <td class="py-4 px-4 text-center">
+                            <button class="text-xs bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 px-3 py-1.5 rounded-lg transition font-medium">
+                                Details
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        // FILTER STOCKS BY CATEGORY
+        function filterStocks(category) {
+            // Update Tab Active UI
+            document.querySelectorAll('.stock-tab').forEach(btn => {
+                btn.className = "stock-tab bg-slate-800 hover:bg-slate-700 text-slate-300 px-3.5 py-1.5 rounded-lg text-xs font-medium transition";
+            });
+            const activeTab = document.getElementById(`tab-${category}`);
+            if (activeTab) {
+                activeTab.className = "stock-tab bg-blue-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-medium transition";
+            }
+
+            let filtered = bursaStocks;
+            if (category === 'gainer') {
+                filtered = bursaStocks.filter(s => s.type === 'gainer');
+            } else if (category === 'loser') {
+                filtered = bursaStocks.filter(s => s.type === 'loser');
+            } else if (category === 'finance') {
+                filtered = bursaStocks.filter(s => s.sector.includes('Financial'));
+            } else if (category === 'tech') {
+                filtered = bursaStocks.filter(s => s.sector.includes('Tech') || s.sector.includes('Utilities'));
+            }
+
+            renderStockTable(filtered);
+        }
+
+        // OPEN STOCK FUNDAMENTAL MODAL
+        function openStockDetail(ticker) {
+            const stock = bursaStocks.find(s => s.ticker === ticker) || bursaStocks[0];
+            
+            document.getElementById('modalStockName').innerText = stock.full;
+            document.getElementById('modalStockTicker').innerText = stock.ticker;
+            document.getElementById('modalStockSector').innerText = `${stock.sector} | Main Market Bursa Malaysia`;
+            document.getElementById('modalPrice').innerText = `RM ${stock.price.toFixed(2)}`;
+            document.getElementById('modalLogo').innerText = stock.name.substring(0,2);
+            document.getElementById('modalPE').innerText = `${stock.pe}x`;
+            document.getElementById('modalDiv').innerText = `${stock.div}%`;
+            document.getElementById('modalMarketCap').innerText = `RM ${stock.marketCap} B`;
+            document.getElementById('modalEPS').innerText = `RM ${stock.eps}`;
+            document.getElementById('modalROE').innerText = `${stock.roe}%`;
+            document.getElementById('modalRange').innerText = stock.range;
+            document.getElementById('modalDesc').innerText = stock.desc;
+
+            const isGain = stock.change >= 0;
+            const badge = document.getElementById('modalChangeBadge');
+            badge.className = `text-sm font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 ${isGain ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`;
+            badge.innerHTML = `<i class="fa-solid ${isGain ? 'fa-arrow-trend-up' : 'fa-arrow-trend-down'}"></i> ${isGain ? '+' : ''}${stock.change.toFixed(2)} (${isGain ? '+' : ''}${stock.pct.toFixed(2)}%)`;
+
+            // Adjust SVG color based on trend
+            const chart = document.getElementById('stockSvgChart');
+            chart.className = `w-full h-full ${isGain ? 'text-emerald-400' : 'text-red-400'}`;
+
+            openModal('fundamentalModal');
+        }
+
+        // SWITCH SIMULATED CHART TIMEFRAMES
+        function switchChart(tf) {
+            const chartPath = document.getElementById('chartPath');
+            const paths = {
+                '1D': 'M 0 80 Q 50 60, 100 70 T 200 40 T 300 50 T 400 20',
+                '1W': 'M 0 50 Q 70 90, 140 30 T 280 60 T 400 15',
+                '1M': 'M 0 90 Q 100 20, 200 80 T 300 30 T 400 40',
+                '1Y': 'M 0 70 Q 80 10, 180 90 T 290 20 T 400 10'
+            };
+            if (paths[tf]) {
+                chartPath.setAttribute('d', paths[tf]);
+            }
+        }
+
+        // GENERIC MODAL CONTROLS
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // HANDLE LOGIN SUBMISSION
+        function handleLogin(e) {
+            e.preventDefault();
+            const msg = document.getElementById('loginMsg');
+            msg.classList.remove('hidden');
+            setTimeout(() => {
+                msg.classList.add('hidden');
+                closeModal('loginModal');
+            }, 1800);
+        }
+
+        // SEARCH INPUT FILTER EVENT
+        document.getElementById('stockSearch').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const filtered = bursaStocks.filter(stock => 
+                stock.name.toLowerCase().includes(query) ||
+                stock.ticker.toLowerCase().includes(query) ||
+                stock.full.toLowerCase().includes(query) ||
+                stock.sector.toLowerCase().includes(query)
+            );
+            renderStockTable(filtered);
+        });
+
+        // MOBILE MENU TOGGLE
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // INITIALIZATION ON WINDOW LOAD
+        window.onload = function() {
+            renderTicker();
+            renderStockTable(bursaStocks);
+        };
+    </script>
+</body>
+</html>
