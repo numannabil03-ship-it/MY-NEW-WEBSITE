@@ -142,10 +142,10 @@
                                     <i class="fa-solid fa-file-arrow-down"></i>
                                     <span>Download Resume (CREDIT.pdf)</span>
                                 </a>
-                                <a href="#project-vprop" onclick="switchView('view-vprop')" class="px-5 py-3 rounded-xl font-bold bg-gradient-to-r from-purpleBrand-600 to-indigo-600 hover:from-purpleBrand-500 hover:to-indigo-500 text-white shadow-lg shadow-purpleBrand-600/20 text-xs transition-all flex items-center space-x-2">
+                                <button onclick="switchView('view-vprop')" class="px-5 py-3 rounded-xl font-bold bg-gradient-to-r from-purpleBrand-600 to-indigo-600 hover:from-purpleBrand-500 hover:to-indigo-500 text-white shadow-lg shadow-purpleBrand-600/20 text-xs transition-all flex items-center space-x-2 cursor-pointer">
                                     <i class="fa-solid fa-chart-line"></i>
                                     <span>View Prop Firm Audit</span>
-                                </a>
+                                </button>
                                 <a href="#contact" class="px-5 py-3 rounded-xl font-bold bg-navy-800 hover:bg-navy-700 text-white border border-white/10 text-xs transition-all flex items-center space-x-2">
                                     <i class="fa-solid fa-envelope text-gold-400"></i>
                                     <span>Contact Me</span>
@@ -697,62 +697,88 @@
         </div>
 
 
-        <!-- VIEW 2: CTOS INTERNSHIP DEEP DIVE -->
-        <div id="view-ctos" class="spa-view space-y-6">
+        <!-- VIEW 2: CTOS INTERNSHIP DEEP DIVE (CONVERTED TO ARTICLE / LONG-FORM BREAKDOWN) -->
+        <div id="view-ctos" class="spa-view space-y-8">
             <div class="flex items-center justify-between border-b border-white/10 pb-4">
                 <div>
                     <button onclick="switchView('view-home')" class="text-xs text-emerald-400 hover:underline flex items-center space-x-1.5 mb-2 cursor-pointer">
                         <i class="fa-solid fa-arrow-left"></i>
                         <span>Back to Home Portfolio</span>
                     </button>
-                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">CTOS Basis 24-Week Internship Report</h2>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white">CTOS Basis 24-Week Internship Breakdown</h2>
                     <p class="text-slate-400 text-xs mt-1">Menara CelcomDigi, Petaling Jaya • Operations Finance Intern (March 2026 – August 2026)</p>
                 </div>
                 <a href="internship-report.pdf" download="internship-report.pdf" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-navy-950 font-bold text-xs rounded-xl shadow-lg transition-all flex items-center space-x-2">
                     <i class="fa-solid fa-download"></i>
-                    <span>Download Report (.pdf)</span>
+                    <span>Download PDF Report</span>
                 </a>
             </div>
 
-            <!-- Stats Grid -->
-            <div class="grid md:grid-cols-3 gap-4 text-xs">
-                <div class="glass-panel p-4 rounded-xl border border-white/5 space-y-1">
-                    <span class="text-slate-400 block font-mono">Daily Throughput</span>
-                    <span class="text-lg font-bold text-white">20–30 Financial Statements</span>
-                    <p class="text-slate-400 text-[11px]">Audited P&L, balance sheets, and cash flow statements daily.</p>
+            <!-- Article Content Container -->
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-white/10 space-y-8 text-slate-300 leading-relaxed text-sm">
+                
+                <!-- Section 1: Executive Overview -->
+                <div class="space-y-3">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-mono font-bold uppercase tracking-wider">
+                        <span>Executive Summary & Placement Scope</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Transforming Academic Theory into Corporate Credit Rigor at Menara CelcomDigi</h3>
+                    <p>
+                        Spanning a rigorous 24-week tenure from March to August 2026 at CTOS Basis Sdn Bhd, stationed within Menara CelcomDigi, Petaling Jaya, my role as an Operations Finance Intern served as the definitive bridge between my academic foundations in BBA Investment Management from Universiti Teknologi MARA (UiTM) Segamat and high-stakes corporate credit assessment. Operating at the forefront of Malaysia’s credit reporting agency ecosystem, my core responsibilities revolved around rigorous financial statement evaluation, corporate background verification, and risk auditing across thousands of commercial entities.
+                    </p>
                 </div>
-                <div class="glass-panel p-4 rounded-xl border border-white/5 space-y-1">
-                    <span class="text-slate-400 block font-mono">High-Speed Audit SLA</span>
-                    <span class="text-lg font-bold text-emerald-400">50 Files / 2 Hours</span>
-                    <p class="text-slate-400 text-[11px]">Completed bulk statement verifications under strict turnaround deadlines.</p>
+
+                <!-- Section 2: Daily Operational Workflow & Financial Audit -->
+                <div class="space-y-4 pt-4 border-t border-white/10">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-gold-500/10 text-gold-400 text-xs font-mono font-bold uppercase tracking-wider">
+                        <span>Core Operational Responsibilities</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Auditing 20–30 Corporate Financial Statements Daily</h3>
+                    <p>
+                        In an industry where data fidelity dictates institutional lending decisions, precision is non-negotiable. On a daily basis, I systematically audited, vetted, and processed between 20 to 30 complex corporate financial statements—scrutinizing Profit & Loss statements, balance sheets, and cash flow liquidity ratios. 
+                    </p>
+                    <p>
+                        My daily workflow involved cross-verifying raw financial figures against official Companies Commission of Malaysia (SSM) filings and RAM Credit Information databases. This ensured that commercial credit scores, director directorship linkages, and litigation history tracking reports generated for banking institutions and enterprise clients maintained 100% accuracy. Under high-pressure turnaround windows (such as bulk-auditing 50 corporate files within tight 2-hour SLAs), I leveraged advanced spreadsheet modeling (VLOOKUP, INDEX/MATCH, and pivot structures) to flag liquidity stress and anomalous liability spikes before credit committee approvals.
+                    </p>
                 </div>
-                <div class="glass-panel p-4 rounded-xl border border-white/5 space-y-1">
-                    <span class="text-slate-400 block font-mono">Database Coverage</span>
-                    <span class="text-lg font-bold text-gold-400">15M+ Consumer / 8M+ Corporate</span>
-                    <p class="text-slate-400 text-[11px]">Cross-verified corporate registry entries against SSM and legal gazettes.</p>
+
+                <!-- Section 3: Key Learnings & Risk Mitigation Frameworks -->
+                <div class="space-y-4 pt-4 border-t border-white/10">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-mono font-bold uppercase tracking-wider">
+                        <span>Strategic Impact & Risk Management</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white">Mitigating Corporate Default Risk in Malaysia's Economic Landscape</h3>
+                    <p>
+                        Working within CTOS Basis provided deep insight into macro-level corporate default indicators. By analyzing debt-to-equity structures, working capital deficits, and director background histories, I developed an acute understanding of how macroeconomic headwinds translate into corporate credit distress. 
+                    </p>
+                    <p>
+                        The internship significantly sharpened my ability to conduct comprehensive SWOT analyses of distressed corporate balance sheets, ensuring that financial institutions received transparent, unvarnished risk disclosures. This experience cemented my expertise in credit risk mitigation, regulatory compliance under Malaysian credit laws, and enterprise operational efficiency.
+                    </p>
                 </div>
+
+                <!-- Section 4: Conclusion -->
+                <div class="p-6 rounded-2xl bg-navy-900 border border-emerald-500/30 space-y-2">
+                    <h4 class="text-base font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                        <span>Career Readiness & Future Outlook</span>
+                    </h4>
+                    <p class="text-xs text-slate-300">
+                        The 24-week stint at CTOS Basis successfully equipped me with institutional-grade financial analysis acumen, reinforcing my readiness to excel in corporate banking, fixed income analysis, and investment portfolio management.
+                    </p>
+                </div>
+
             </div>
 
-            <!-- Embedded PDF Viewer -->
-            <div class="space-y-3">
-                <div class="flex items-center justify-between text-xs text-slate-400">
-                    <span class="font-mono font-semibold text-white"><i class="fa-solid fa-file-pdf text-red-400 mr-1.5"></i> Live Document Reader</span>
-                    <span>internship-report.pdf</span>
-                </div>
-                <div class="w-full h-[650px] bg-navy-900 rounded-xl overflow-hidden border border-white/10 shadow-inner">
-                    <iframe src="internship-report.pdf" class="w-full h-full border-none">
-                        <p class="text-center text-slate-400 p-8 text-xs">
-                            Your browser does not support embedded PDFs. 
-                            <a href="internship-report.pdf" target="_blank" class="text-gold-400 underline font-bold">Click here to view or download the CTOS Internship Report</a>.
-                        </p>
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- Local Upload Fallback -->
-            <div class="glass-card p-4 rounded-xl border border-white/10 flex items-center justify-between">
-                <span class="text-xs text-slate-300">Test a local PDF file override:</span>
-                <input type="file" accept="application/pdf" class="text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-500 file:text-navy-950 hover:file:bg-emerald-600 cursor-pointer" onchange="previewLocalPDF(event, 'ctos-iframe')">
+            <!-- Bottom Action Navigation -->
+            <div class="flex items-center justify-between pt-4">
+                <button onclick="switchView('view-home')" class="px-5 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-white border border-white/10 font-bold text-xs transition-colors flex items-center space-x-2 cursor-pointer">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Return to Portfolio Home</span>
+                </button>
+                <a href="internship-report.pdf" download="internship-report.pdf" class="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-navy-950 font-bold text-xs transition-colors flex items-center space-x-2">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download Full PDF Report</span>
+                </a>
             </div>
         </div>
 
@@ -864,7 +890,7 @@
                         <tbody class="divide-y divide-white/5">
                             <tr>
                                 <td class="px-4 py-3 font-bold text-white">Day 1</td>
-                                <td class="px-4 mat-cell px-4 py-3">1,550.00</td>
+                                <td class="px-4 py-3">1,550.00</td>
                                 <td class="px-4 py-3 text-slate-400">Base</td>
                                 <td class="px-4 py-3">-</td>
                                 <td class="px-4 py-3 font-mono text-white">RM 25,000 (Initial Margin)</td>
