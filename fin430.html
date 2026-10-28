@@ -1,0 +1,353 @@
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIN 430 Company Analysis | Nu'man Nabil Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: { 700: '#1E293B', 800: '#111827', 900: '#0B1120', 950: '#070C18' },
+                        gold: { 400: '#FBBF24', 500: '#F59E0B', 600: '#D97706' },
+                        emerald: { 400: '#34D399', 500: '#10B981', 600: '#059669' },
+                        purpleBrand: { 400: '#A78BFA', 500: '#8B5CF6', 600: '#7C3AED' }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glass-card { background: rgba(30, 41, 59, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.07); }
+    </style>
+</head>
+<body class="bg-navy-950 text-slate-200 font-sans antialiased min-h-screen flex flex-col selection:bg-gold-500 selection:text-navy-950">
+
+    <!-- TOP NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-gold-600 via-gold-500 to-amber-300 flex items-center justify-center text-navy-950 font-extrabold text-2xl shadow-lg group-hover:scale-105 transition-transform">
+                    N
+                </div>
+                <div>
+                    <span class="block font-bold text-white text-base leading-tight group-hover:text-gold-400 transition-colors">Nu'man Nabil</span>
+                    <span class="block text-xs text-slate-400 font-mono">Investment Management</span>
+                </div>
+            </a>
+            <a href="index.html" class="px-4 py-2 rounded-xl bg-navy-800 hover:bg-navy-700 text-white text-xs font-semibold border border-white/10 transition-all flex items-center space-x-2">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span>Back to Portfolio Home</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- MAIN PAGE CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        
+        <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-white/10 pb-4 gap-4">
+            <div>
+                <a href="index.html" class="text-xs text-blue-400 hover:underline flex items-center space-x-1.5 mb-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Home Portfolio</span>
+                </a>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-white">FIN 430: Introduction to Corporate Finance - Company Analysis</h2>
+                <p class="text-slate-400 text-xs mt-1">Comparative Financial Ratio Analysis of Amlex Holdings Berhad & Turiya Berhad (2021–2022)[cite: 23, 24, 25]</p>
+            </div>
+            <a href="fin430.pdf" download="fin430.pdf" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs rounded-xl shadow-lg transition-all flex items-center space-x-2 self-start">
+                <i class="fa-solid fa-download"></i>
+                <span>Download Full Report (.pdf)</span>
+            </a>
+        </div>
+
+        <!-- Group Assignment Summary -->
+        <div class="glass-card rounded-3xl p-6 sm:p-10 border border-white/10 space-y-6 text-slate-300 leading-relaxed text-sm">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 text-xs font-mono font-bold uppercase tracking-wider">
+                <span>Executive Group Assignment Summary</span>
+            </div>
+            <h3 class="text-xl font-bold text-white">Comparative Evaluation of Electronic Component & Technology-Driven Industrial Sectors in Malaysia</h3>
+            <p>
+                This FIN 430 group assignment evaluates the financial performance, stability, and operational efficiency of two prominent Malaysian companies—<strong>Amlex Holdings Berhad</strong> and <strong>Turiya Berhad</strong>—across financial years 2021 and 2022[cite: 23, 24, 25]. The study uses comprehensive ratio analyses spanning liquidity, activity (efficiency), leverage (solvency), profitability, and market valuation to contrast how each firm manages short-term obligations, capital structure, and shareholder wealth[cite: 23].
+            </p>
+        </div>
+
+        <!-- List of Analyzed Companies -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="glass-panel p-6 rounded-2xl border border-white/10 space-y-3">
+                <div class="text-xs font-mono text-gold-400 font-bold uppercase">Company 1</div>
+                <h3 class="text-lg font-bold text-white">Amlex Holdings Berhad</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    A leading Malaysian manufacturer and supplier of high-quality electronic components, connectors, terminals, and customized solutions serving automotive and consumer electronics industries globally[cite: 24]. Demonstrated remarkable growth in EPS (from 1.26 Sen to 4.60 Sen) and strong operational efficiency improvements in 2022[cite: 32, 38].
+                </p>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border border-white/10 space-y-3">
+                <div class="text-xs font-mono text-emerald-400 font-bold uppercase">Company 2</div>
+                <h3 class="text-lg font-bold text-white">Turiya Berhad</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">
+                    A technology-driven solutions provider focusing on commercial, natural, healthcare technologies, and sustainability/environmental innovations[cite: 25]. Maintained robust liquidity ratios but faced operational activity headwinds such as extended average collection periods and declining gross profit margins[cite: 29, 31, 36].
+                </p>
+            </div>
+        </div>
+
+        <!-- Financial Ratios Summary Tables -->
+        <div class="glass-card rounded-2xl p-6 border border-white/10 space-y-6">
+            <h3 class="text-base font-bold text-white">Summary of Financial Ratios (2021 vs 2022)</h3>
+            
+            <div class="space-y-4">
+                <h4 class="text-xs font-mono text-blue-400 font-bold uppercase">1. Liquidity Ratios</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left text-slate-300">
+                        <thead class="text-[11px] font-mono text-slate-400 uppercase bg-navy-900 border-b border-white/10">
+                            <tr>
+                                <th class="px-3 py-2.5">Metric</th>
+                                <th class="px-3 py-2.5">Amlex (2021)</th>
+                                <th class="px-3 py-2.5">Amlex (2022)</th>
+                                <th class="px-3 py-2.5">Turiya (2021)</th>
+                                <th class="px-3 py-2.5">Turiya (2022)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Current Ratio</td>
+                                <td class="px-3 py-2">1.48 times[cite: 28]</td>
+                                <td class="px-3 py-2 text-emerald-400">1.90 times[cite: 28]</td>
+                                <td class="px-3 py-2">2.25 times[cite: 29]</td>
+                                <td class="px-3 py-2 text-emerald-400">2.31 times[cite: 29]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Quick Ratio</td>
+                                <td class="px-3 py-2">0.88 times[cite: 28]</td>
+                                <td class="px-3 py-2 text-emerald-400">1.31 times[cite: 28]</td>
+                                <td class="px-3 py-2">1.79 times[cite: 29]</td>
+                                <td class="px-3 py-2 text-emerald-400">1.84 times[cite: 29]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Net Working Capital</td>
+                                <td class="px-3 py-2">RM 10.19M[cite: 28]</td>
+                                <td class="px-3 py-2 text-emerald-400">RM 20.22M[cite: 28]</td>
+                                <td class="px-3 py-2">RM 6.87M[cite: 29]</td>
+                                <td class="px-3 py-2 text-emerald-400">RM 7.69M[cite: 29]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="space-y-4 pt-4 border-t border-white/10">
+                <h4 class="text-xs font-mono text-blue-400 font-bold uppercase">2. Activity & Efficiency Ratios</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left text-slate-300">
+                        <thead class="text-[11px] font-mono text-slate-400 uppercase bg-navy-900 border-b border-white/10">
+                            <tr>
+                                <th class="px-3 py-2.5">Metric</th>
+                                <th class="px-3 py-2.5">Amlex (2021)</th>
+                                <th class="px-3 py-2.5">Amlex (2022)</th>
+                                <th class="px-3 py-2.5">Turiya (2021)</th>
+                                <th class="px-3 py-2.5">Turiya (2022)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Average Collection Period</td>
+                                <td class="px-3 py-2">86.22 days[cite: 30]</td>
+                                <td class="px-3 py-2 text-emerald-400">72.37 days[cite: 30]</td>
+                                <td class="px-3 py-2">73.45 days[cite: 31]</td>
+                                <td class="px-3 py-2 text-red-400">108.31 days[cite: 31]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Inventory Turnover</td>
+                                <td class="px-3 py-2">4.25 times[cite: 30]</td>
+                                <td class="px-3 py-2 text-emerald-400">4.79 times[cite: 30]</td>
+                                <td class="px-3 py-2">4.31 times[cite: 31]</td>
+                                <td class="px-3 py-2 text-emerald-400">5.24 times[cite: 31]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Total Asset Turnover</td>
+                                <td class="px-3 py-2">1.04 times[cite: 30]</td>
+                                <td class="px-3 py-2 text-emerald-400">1.15 times[cite: 30]</td>
+                                <td class="px-3 py-2">0.11 times[cite: 31]</td>
+                                <td class="px-3 py-2 text-emerald-400">0.14 times[cite: 31]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="space-y-4 pt-4 border-t border-white/10">
+                <h4 class="text-xs font-mono text-blue-400 font-bold uppercase">3. Leverage (Solvency) Ratios</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left text-slate-300">
+                        <thead class="text-[11px] font-mono text-slate-400 uppercase bg-navy-900 border-b border-white/10">
+                            <tr>
+                                <th class="px-3 py-2.5">Metric</th>
+                                <th class="px-3 py-2.5">Amlex (2021)</th>
+                                <th class="px-3 py-2.5">Amlex (2022)</th>
+                                <th class="px-3 py-2.5">Turiya (2021)</th>
+                                <th class="px-3 py-2.5">Turiya (2022)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Debt Ratio</td>
+                                <td class="px-3 py-2">50.85%[cite: 33]</td>
+                                <td class="px-3 py-2 text-emerald-400">44.14%[cite: 33]</td>
+                                <td class="px-3 py-2">27.90%[cite: 34]</td>
+                                <td class="px-3 py-2 text-emerald-400">27.00%[cite: 34]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Debt-to-Equity Ratio</td>
+                                <td class="px-3 py-2">103.48%[cite: 33]</td>
+                                <td class="px-3 py-2 text-emerald-400">79.03%[cite: 33]</td>
+                                <td class="px-3 py-2">38.70%[cite: 34]</td>
+                                <td class="px-3 py-2 text-emerald-400">37.00%[cite: 34]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Time Interest Earned</td>
+                                <td class="px-3 py-2">6.76 times[cite: 33]</td>
+                                <td class="px-3 py-2 text-emerald-400">17.63 times[cite: 33]</td>
+                                <td class="px-3 py-2">2.03 times[cite: 34]</td>
+                                <td class="px-3 py-2 text-red-400">1.84 times[cite: 34]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="space-y-4 pt-4 border-t border-white/10">
+                <h4 class="text-xs font-mono text-blue-400 font-bold uppercase">4. Profitability & Market Ratios</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left text-slate-300">
+                        <thead class="text-[11px] font-mono text-slate-400 uppercase bg-navy-900 border-b border-white/10">
+                            <tr>
+                                <th class="px-3 py-2.5">Metric</th>
+                                <th class="px-3 py-2.5">Amlex (2021)</th>
+                                <th class="px-3 py-2.5">Amlex (2022)</th>
+                                <th class="px-3 py-2.5">Turiya (2021)</th>
+                                <th class="px-3 py-2.5">Turiya (2022)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Gross Profit Margin</td>
+                                <td class="px-3 py-2">17.19%[cite: 36]</td>
+                                <td class="px-3 py-2 text-emerald-400">24.98%[cite: 36]</td>
+                                <td class="px-3 py-2">42.81%[cite: 36]</td>
+                                <td class="px-3 py-2 text-red-400">40.95%[cite: 36]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Net Profit Margin</td>
+                                <td class="px-3 py-2">5.18%[cite: 36]</td>
+                                <td class="px-3 py-2 text-emerald-400">14.42%[cite: 36]</td>
+                                <td class="px-3 py-2">3.05%[cite: 36]</td>
+                                <td class="px-3 py-2 text-emerald-400">8.19%[cite: 36]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Return on Equity (ROE)</td>
+                                <td class="px-3 py-2">10.97%[cite: 36]</td>
+                                <td class="px-3 py-2 text-emerald-400">28.92%[cite: 36]</td>
+                                <td class="px-3 py-2">0.47%[cite: 36]</td>
+                                <td class="px-3 py-2 text-emerald-400">1.62%[cite: 36]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Earnings Per Share (EPS)</td>
+                                <td class="px-3 py-2">1.26 Sen[cite: 38]</td>
+                                <td class="px-3 py-2 text-emerald-400">4.60 Sen[cite: 38]</td>
+                                <td class="px-3 py-2">0.26 Sen[cite: 38]</td>
+                                <td class="px-3 py-2 text-emerald-400">0.88 Sen[cite: 38]</td>
+                            </tr>
+                            <tr>
+                                <td class="px-3 py-2 font-bold text-white">Price-to-Earnings (P/E) Ratio</td>
+                                <td class="px-3 py-2">0.17[cite: 38]</td>
+                                <td class="px-3 py-2">0.09[cite: 38]</td>
+                                <td class="px-3 py-2">0.85[cite: 38]</td>
+                                <td class="px-3 py-2">0.19[cite: 38]</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparative Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="glass-panel p-6 rounded-2xl border border-white/10 space-y-4">
+                <h3 class="text-base font-bold text-white">Earnings Per Share (EPS) Growth (2021 vs 2022)[cite: 38]</h3>
+                <div class="h-64 relative"><canvas id="finEpsChart"></canvas></div>
+            </div>
+            <div class="glass-panel p-6 rounded-2xl border border-white/10 space-y-4">
+                <h3 class="text-base font-bold text-white">Return on Equity (ROE) Comparison[cite: 36]</h3>
+                <div class="h-64 relative"><canvas id="finRoeChart"></canvas></div>
+            </div>
+        </div>
+
+        <!-- Live PDF Document Reader -->
+        <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs text-slate-400">
+                <span class="font-mono font-semibold text-white"><i class="fa-solid fa-file-pdf text-red-400 mr-1.5"></i> Full Assignment Reader</span>
+                <span>fin430.pdf</span>
+            </div>
+            <div class="w-full h-[650px] bg-navy-900 rounded-xl overflow-hidden border border-white/10 shadow-inner">
+                <iframe src="fin430.pdf" class="w-full h-full border-none"></iframe>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-panel border-t border-white/10 mt-20 py-8 text-center text-xs text-slate-400">
+        <p>© 2026 Nu'man Nabil bin Nazri. All rights reserved. • BBA Investment Management & Verified Prop Trader</p>
+    </footer>
+
+    <!-- CHART INITIALIZATION -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const epsCtx = document.getElementById('finEpsChart');
+            if (epsCtx) {
+                new Chart(epsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['2021', '2022'],
+                        datasets: [
+                            { label: 'Amlex EPS (Sen)', data: [1.26, 4.60], backgroundColor: '#34D399', borderRadius: 6 },
+                            { label: 'Turiya EPS (Sen)', data: [0.26, 0.88], backgroundColor: '#3B82F6', borderRadius: 6 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            const roeCtx = document.getElementById('finRoeChart');
+            if (roeCtx) {
+                new Chart(roeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['2021', '2022'],
+                        datasets: [
+                            { label: 'Amlex ROE (%)', data: [10.97, 28.92], backgroundColor: '#F59E0B', borderRadius: 6 },
+                            { label: 'Turiya ROE (%)', data: [0.47, 1.62], backgroundColor: '#8B5CF6', borderRadius: 6 }
+                        ]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
